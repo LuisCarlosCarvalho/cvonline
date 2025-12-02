@@ -5,6 +5,7 @@ const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 let currentListId = null;
+let currentListItems = [];
 
 window.switchProject = function(projectName) {
     document.querySelectorAll('.project-menu-btn').forEach(btn => btn.classList.remove('active'));
@@ -183,6 +184,8 @@ async function loadListItems(listId) {
 
         if (error) throw error;
 
+        currentListItems = items || [];
+
         if (!items || items.length === 0) {
             container.innerHTML = '<div class="empty-items"><i class="fas fa-shopping-basket"></i><p>Nenhum item ainda. Clique no + para adicionar.</p></div>';
             updateSummary([], 0, 0);
@@ -263,3 +266,109 @@ window.addEventListener('click', (event) => {
     if (event.target === newListModal) closeNewListModal();
     if (event.target === addItemModal) closeAddItemModal();
 });
+
+// WhatsApp functionality
+window.sendToWhatsApp = async function() {
+    if (!currentListId) {
+        alert('Selecione uma lista primeiro!');
+        return;
+    }
+
+    const phoneInput = document.getElementById('whatsapp-number');
+    let phoneNumber = phoneInput.value.replace(/\D/g, '');
+
+    if (!phoneNumber) {
+        alert('Por favor, digite seu número de WhatsApp!');
+        phoneInput.focus();
+        return;
+    }
+
+    if (phoneNumber.length < 10) {
+        alert('Número inválido! Digite o DDD + número completo.');
+        phoneInput.focus();
+        return;
+    }
+
+    if (phoneNumber.length === 11 && !phoneNumber.startsWith('55')) {
+        phoneNumber = '55' + phoneNumber;
+    }
+
+    if (currentListItems.length === 0) {
+        alert('A lista está vazia! Adicione itens antes de enviar.');
+        return;
+    }
+
+    const listName = document.getElementById('current-list-name').textContent;
+    let message = `*${listName}*\n\n`;
+
+    const pendingItems = currentListItems.filter(item => !item.is_completed);
+    const completedItems = currentListItems.filter(item => item.is_completed);
+
+    if (pendingItems.length > 0) {
+        message += `*🛒 Itens para comprar:*\n`;
+        pendingItems.forEach((item, index) => {
+            message += `${index + 1}. ${item.name} - ${item.quantity} ${item.unit}`;
+            if (item.price) {
+                message += ` (R$ ${(parseFloat(item.price) * item.quantity).toFixed(2)})`;
+            }
+            message += `\n`;
+        });
+    }
+
+    if (completedItems.length > 0) {
+        message += `\n*✅ Já comprados:*\n`;
+        completedItems.forEach((item, index) => {
+            message += `${index + 1}. ${item.name} - ${item.quantity} ${item.unit}`;
+            if (item.price) {
+                message += ` (R$ ${(parseFloat(item.price) * item.quantity).toFixed(2)})`;
+            }
+            message += `\n`;
+        });
+    }
+
+    const totalPrice = currentListItems.reduce((sum, item) => 
+        sum + (parseFloat(item.price) * item.quantity || 0), 0
+    );
+
+    if (totalPrice > 0) {
+        message += `\n*💰 Valor Total: R$ ${totalPrice.toFixed(2)}*`;
+    }
+
+    message += `\n\n_Lista criada em ${window.location.hostname}_`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+    window.open(whatsappUrl, '_blank');
+
+    localStorage.setItem('whatsapp_number', phoneNumber);
+};
+
+// Format phone number as user types
+document.addEventListener('DOMContentLoaded', () => {
+    const phoneInput = document.getElementById('whatsapp-number');
+    
+    if (phoneInput) {
+        const savedNumber = localStorage.getItem('whatsapp_number');
+        if (savedNumber) {
+            phoneInput.value = formatPhoneNumber(savedNumber);
+        }
+
+        phoneInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            e.target.value = formatPhoneNumber(value);
+        });
+    }
+});
+
+function formatPhoneNumber(value) {
+    if (!value) return '';
+    
+    value = value.replace(/^55/, '');
+    
+    if (value.length <= 10) {
+        return value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3').replace(/-$/, '');
+    } else {
+        return value.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3').replace(/-$/, '');
+    }
+}
