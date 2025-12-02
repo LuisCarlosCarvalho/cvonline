@@ -541,190 +541,236 @@ Na logística, atuo na gestão e operação de frotas, armazéns e distribuiçã
     <section id="calculator" class="calculator-section">
         <div class="container">
             <div class="section-header animate-fade-in-up">
-                <h2>CALCULADORA LOGÍSTICA</h2>
-                <p>Ferramenta para cálculo de custos de carga e frete</p>
-                <div class="legend animate-fade-in-up delay-300">
-                    <span class="legend-title">LEGENDA:</span>
-                    <div class="legend-items">
-                        <div class="legend-item">
-                            <div class="legend-color current"></div>
-                            <span>CENÁRIO ATUAL</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-color new"></div>
-                            <span>NOVO CENÁRIO</span>
-                        </div>
+                <h2><i class="fas fa-calculator"></i> Calculadora Logística Inteligente</h2>
+                <p>Calcule custos, otimize operações e maximize lucros com precisão</p>
+            </div>
+
+            <!-- Quick Info Cards -->
+            <div class="calc-info-cards animate-fade-in-up delay-200">
+                <div class="info-card">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <h4>Análise Completa</h4>
+                        <p>Todos os custos operacionais</p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-sync-alt"></i>
+                    <div>
+                        <h4>Cálculo em Tempo Real</h4>
+                        <p>Resultados instantâneos</p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-file-export"></i>
+                    <div>
+                        <h4>Exportação</h4>
+                        <p>Relatório detalhado em PDF</p>
                     </div>
                 </div>
             </div>
 
             <div class="calculator-container animate-fade-in-up delay-400">
-                <!-- Faturamento -->
-                <div class="calculator-level">
-                    <div class="calculator-card main-card">
-                        <h3>FATURAMENTO MENSAL</h3>
-                        <div class="input-group">
-                            <label>Valor Base (R$)</label>
-                            <input type="number" id="faturamento-base" placeholder="0,00" step="0.01">
-                        </div>
-                        <div class="result-display highlight" id="faturamento-total">R$ 0,00</div>
-                    </div>
+                <!-- Tabs for organization -->
+                <div class="calc-tabs">
+                    <button class="calc-tab-btn active" onclick="switchCalcTab('custos')">
+                        <i class="fas fa-dollar-sign"></i>
+                        Custos Operacionais
+                    </button>
+                    <button class="calc-tab-btn" onclick="switchCalcTab('operacional')">
+                        <i class="fas fa-cogs"></i>
+                        Dados Operacionais
+                    </button>
+                    <button class="calc-tab-btn" onclick="switchCalcTab('resultados')">
+                        <i class="fas fa-chart-pie"></i>
+                        Resultados
+                    </button>
                 </div>
 
-                <!-- Main Costs -->
-                <div class="calculator-level">
-                    <div class="calculator-grid">
-                        <div class="calculator-card">
-                            <h3>CUSTO COMBUSTÍVEL</h3>
-                            <div class="input-group">
-                                <label>Km Rodados</label>
-                                <input type="number" id="km-rodados" placeholder="0" value="5000">
-                            </div>
-                            <div class="input-group">
-                                <label>Consumo (Km/L)</label>
-                                <input type="number" id="consumo" placeholder="0" step="0.1" value="3.5">
-                            </div>
-                            <div class="input-group">
-                                <label>Preço Diesel (R$/L)</label>
-                                <input type="number" id="preco-diesel" placeholder="0,00" step="0.01" value="6.50">
-                            </div>
-                            <div class="result-display" id="custo-combustivel">R$ 0,00</div>
+                <!-- Tab Content: Custos -->
+                <div id="tab-custos" class="calc-tab-content active">
+                    <h3 class="tab-section-title"><i class="fas fa-gas-pump"></i> Custos com Combustível</h3>
+                    <div class="modern-card-grid">
+                        <div class="modern-input-card">
+                            <label><i class="fas fa-road"></i> Km Rodados/Mês</label>
+                            <input type="number" id="km-rodados" placeholder="Ex: 5000" value="5000">
+                            <span class="input-hint">Total de quilômetros por mês</span>
                         </div>
-
-                        <div class="calculator-card">
-                            <h3>CUSTO MANUTENÇÃO</h3>
-                            <div class="input-group">
-                                <label>Manutenção/Km (R$)</label>
-                                <input type="number" id="manutencao-km" placeholder="0,00" step="0.01" value="0.15">
-                            </div>
-                            <div class="result-display" id="custo-manutencao">R$ 0,00</div>
+                        <div class="modern-input-card">
+                            <label><i class="fas fa-tachometer-alt"></i> Consumo (Km/L)</label>
+                            <input type="number" id="consumo" placeholder="Ex: 3.5" step="0.1" value="3.5">
+                            <span class="input-hint">Média de consumo do veículo</span>
                         </div>
-
-                        <div class="calculator-card">
-                            <h3>CUSTO MOTORISTA</h3>
-                            <div class="input-group">
-                                <label>Salário + Encargos (R$)</label>
-                                <input type="number" id="salario-motorista" placeholder="0,00" step="0.01" value="4500">
-                            </div>
-                            <div class="input-group">
-                                <label>Diárias/Ajudas (R$)</label>
-                                <input type="number" id="diarias" placeholder="0,00" step="0.01" value="800">
-                            </div>
-                            <div class="result-display" id="custo-motorista">R$ 0,00</div>
+                        <div class="modern-input-card">
+                            <label><i class="fas fa-dollar-sign"></i> Preço Diesel (R$/L)</label>
+                            <input type="number" id="preco-diesel" placeholder="Ex: 6.50" step="0.01" value="6.50">
+                            <span class="input-hint">Preço atual do combustível</span>
+                        </div>
+                        <div class="modern-result-card fuel">
+                            <span class="result-label">Custo Total Combustível</span>
+                            <span class="result-value" id="custo-combustivel">R$ 0,00</span>
                         </div>
                     </div>
-                </div>
 
-                <!-- Additional Costs -->
-                <div class="calculator-level">
-                    <div class="additional-costs-grid">
-                        <div class="cost-item">
-                            <h4>PEDÁGIOS</h4>
-                            <input type="number" id="pedagios" placeholder="0,00" step="0.01" value="800">
-                            <div class="result-mini" id="custo-pedagios">R$ 0,00</div>
+                    <h3 class="tab-section-title"><i class="fas fa-users"></i> Custos com Pessoal</h3>
+                    <div class="modern-card-grid">
+                        <div class="modern-input-card">
+                            <label><i class="fas fa-user-tie"></i> Salário + Encargos (R$)</label>
+                            <input type="number" id="salario-motorista" placeholder="Ex: 4500" step="0.01" value="4500">
+                            <span class="input-hint">Salário bruto + encargos sociais</span>
                         </div>
-                        <div class="cost-item">
-                            <h4>SEGURO</h4>
-                            <input type="number" id="seguro" placeholder="0,00" step="0.01" value="450">
-                            <div class="result-mini" id="custo-seguro">R$ 0,00</div>
+                        <div class="modern-input-card">
+                            <label><i class="fas fa-utensils"></i> Diárias/Ajudas (R$)</label>
+                            <input type="number" id="diarias" placeholder="Ex: 800" step="0.01" value="800">
+                            <span class="input-hint">Alimentação e ajudas de custo</span>
                         </div>
-                        <div class="cost-item">
-                            <h4>LICENCIAMENTO</h4>
-                            <input type="number" id="licenciamento" placeholder="0,00" step="0.01" value="120">
-                            <div class="result-mini" id="custo-licenciamento">R$ 0,00</div>
-                        </div>
-                        <div class="cost-item">
-                            <h4>DEPRECIAÇÃO</h4>
-                            <input type="number" id="depreciacao" placeholder="0,00" step="0.01" value="1200">
-                            <div class="result-mini" id="custo-depreciacao">R$ 0,00</div>
-                        </div>
-                        <div class="cost-item">
-                            <h4>OUTROS CUSTOS</h4>
-                            <input type="number" id="outros-custos" placeholder="0,00" step="0.01" value="300">
-                            <div class="result-mini" id="custo-outros">R$ 0,00</div>
-                        </div>
-                        <div class="cost-item">
-                            <h4>MARGEM LUCRO</h4>
-                            <input type="number" id="margem-lucro" placeholder="0" min="0" max="100" value="15">
-                            <div class="result-mini" id="valor-margem">15%</div>
+                        <div class="modern-result-card personnel">
+                            <span class="result-label">Custo Total Motorista</span>
+                            <span class="result-value" id="custo-motorista">R$ 0,00</span>
                         </div>
                     </div>
-                </div>
 
-                <!-- Operational Data -->
-                <div class="calculator-level">
-                    <div class="operational-grid">
-                        <div class="operational-item">
-                            <label>Peso Máximo (Kg)</label>
-                            <input type="number" id="peso-maximo" value="25000">
+                    <h3 class="tab-section-title"><i class="fas fa-tools"></i> Manutenção e Outros Custos</h3>
+                    <div class="modern-card-grid">
+                        <div class="modern-input-card">
+                            <label><i class="fas fa-wrench"></i> Manutenção por Km (R$)</label>
+                            <input type="number" id="manutencao-km" placeholder="Ex: 0.15" step="0.01" value="0.15">
+                            <span class="input-hint">Custo médio de manutenção por km</span>
                         </div>
-                        <div class="operational-item">
-                            <label>Volume Máximo (m³)</label>
-                            <input type="number" id="volume-maximo" value="80">
+                        <div class="modern-result-card maintenance">
+                            <span class="result-label">Custo Total Manutenção</span>
+                            <span class="result-value" id="custo-manutencao">R$ 0,00</span>
                         </div>
-                        <div class="operational-item">
-                            <label>Número de Entregas</label>
-                            <input type="number" id="num-entregas" value="120">
+                    </div>
+
+                    <h3 class="tab-section-title"><i class="fas fa-file-invoice-dollar"></i> Custos Fixos e Administrativos</h3>
+                    <div class="modern-card-grid-sm">
+                        <div class="modern-input-card-sm">
+                            <label><i class="fas fa-road"></i> Pedágios</label>
+                            <input type="number" id="pedagios" placeholder="0" step="0.01" value="800">
                         </div>
-                        <div class="operational-item">
-                            <label>Valor por Entrega (R$)</label>
-                            <input type="number" id="valor-entrega" step="0.01" value="85">
+                        <div class="modern-input-card-sm">
+                            <label><i class="fas fa-shield-alt"></i> Seguro</label>
+                            <input type="number" id="seguro" placeholder="0" step="0.01" value="450">
                         </div>
-                        <div class="operational-item">
-                            <label>Eficiência Rota (%)</label>
-                            <input type="number" id="eficiencia-rota" value="85">
+                        <div class="modern-input-card-sm">
+                            <label><i class="fas fa-id-card"></i> Licenciamento</label>
+                            <input type="number" id="licenciamento" placeholder="0" step="0.01" value="120">
                         </div>
-                        <div class="operational-item">
-                            <label>Tempo Parado (h)</label>
-                            <input type="number" id="tempo-parado" step="0.1" value="1.5">
+                        <div class="modern-input-card-sm">
+                            <label><i class="fas fa-chart-line"></i> Depreciação</label>
+                            <input type="number" id="depreciacao" placeholder="0" step="0.01" value="1200">
+                        </div>
+                        <div class="modern-input-card-sm">
+                            <label><i class="fas fa-plus-circle"></i> Outros Custos</label>
+                            <input type="number" id="outros-custos" placeholder="0" step="0.01" value="300">
+                        </div>
+                        <div class="modern-input-card-sm">
+                            <label><i class="fas fa-percentage"></i> Margem Lucro (%)</label>
+                            <input type="number" id="margem-lucro" placeholder="15" min="0" max="100" value="15">
                         </div>
                     </div>
                 </div>
 
-                <!-- Results -->
-                <div class="results-section">
-                    <h3>RESUMO DOS CÁLCULOS</h3>
-                    
-                    <div class="main-result">
-                        <h4>CUSTO TOTAL MENSAL</h4>
-                        <div class="main-result-value" id="custo-total-mensal">R$ 0,00</div>
-                    </div>
-
-                    <div class="results-grid">
-                        <div class="result-item">
-                            <h4>CUSTO POR KM</h4>
-                            <div class="result-value" id="custo-por-km">R$ 0,00</div>
+                <!-- Tab Content: Operacional -->
+                <div id="tab-operacional" class="calc-tab-content">
+                    <h3 class="tab-section-title"><i class="fas fa-truck-loading"></i> Capacidade do Veículo</h3>
+                    <div class="modern-card-grid">
+                        <div class="modern-input-card">
+                            <label><i class="fas fa-weight"></i> Peso Máximo (Kg)</label>
+                            <input type="number" id="peso-maximo" placeholder="Ex: 25000" value="25000">
+                            <span class="input-hint">Capacidade máxima de carga</span>
                         </div>
-                        <div class="result-item">
-                            <h4>CUSTO POR ENTREGA</h4>
-                            <div class="result-value" id="custo-por-entrega">R$ 0,00</div>
-                        </div>
-                        <div class="result-item">
-                            <h4>RECEITA NECESSÁRIA</h4>
-                            <div class="result-value" id="receita-necessaria">R$ 0,00</div>
-                        </div>
-                        <div class="result-item">
-                            <h4>PONTO DE EQUILÍBRIO</h4>
-                            <div class="result-value" id="ponto-equilibrio">0 entregas</div>
-                        </div>
-                        <div class="result-item">
-                            <h4>LUCRO ESTIMADO</h4>
-                            <div class="result-value" id="lucro-estimado">R$ 0,00</div>
-                        </div>
-                        <div class="result-item">
-                            <h4>RECEITA ENTREGAS</h4>
-                            <div class="result-value" id="receita-entregas">R$ 0,00</div>
+                        <div class="modern-input-card">
+                            <label><i class="fas fa-cubes"></i> Volume Máximo (m³)</label>
+                            <input type="number" id="volume-maximo" placeholder="Ex: 80" value="80">
+                            <span class="input-hint">Capacidade volumétrica</span>
                         </div>
                     </div>
 
-                    <div class="calculator-actions">
-                        <button class="btn btn-primary" onclick="exportResults()">
-                            <i class="fas fa-download"></i>
-                            Exportar Relatório
+                    <h3 class="tab-section-title"><i class="fas fa-shipping-fast"></i> Operação de Entregas</h3>
+                    <div class="modern-card-grid">
+                        <div class="modern-input-card">
+                            <label><i class="fas fa-box"></i> Número de Entregas/Mês</label>
+                            <input type="number" id="num-entregas" placeholder="Ex: 120" value="120">
+                            <span class="input-hint">Total de entregas mensais</span>
+                        </div>
+                        <div class="modern-input-card">
+                            <label><i class="fas fa-money-bill-wave"></i> Valor por Entrega (R$)</label>
+                            <input type="number" id="valor-entrega" placeholder="Ex: 85" step="0.01" value="85">
+                            <span class="input-hint">Receita média por entrega</span>
+                        </div>
+                        <div class="modern-input-card">
+                            <label><i class="fas fa-route"></i> Eficiência de Rota (%)</label>
+                            <input type="number" id="eficiencia-rota" placeholder="Ex: 85" value="85">
+                            <span class="input-hint">Aproveitamento das rotas</span>
+                        </div>
+                        <div class="modern-input-card">
+                            <label><i class="fas fa-clock"></i> Tempo Parado (horas/dia)</label>
+                            <input type="number" id="tempo-parado" placeholder="Ex: 1.5" step="0.1" value="1.5">
+                            <span class="input-hint">Tempo médio de parada</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Resultados -->
+                <div id="tab-resultados" class="calc-tab-content">
+                    <div class="results-hero">
+                        <div class="hero-result">
+                            <i class="fas fa-calculator"></i>
+                            <div>
+                                <span class="hero-label">Custo Total Mensal</span>
+                                <span class="hero-value" id="custo-total-mensal">R$ 0,00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="tab-section-title"><i class="fas fa-chart-bar"></i> Análise Detalhada</h3>
+                    <div class="results-modern-grid">
+                        <div class="result-modern-card">
+                            <i class="fas fa-road"></i>
+                            <span class="result-modern-label">Custo por KM</span>
+                            <span class="result-modern-value" id="custo-por-km">R$ 0,00</span>
+                        </div>
+                        <div class="result-modern-card">
+                            <i class="fas fa-box"></i>
+                            <span class="result-modern-label">Custo por Entrega</span>
+                            <span class="result-modern-value" id="custo-por-entrega">R$ 0,00</span>
+                        </div>
+                        <div class="result-modern-card">
+                            <i class="fas fa-hand-holding-usd"></i>
+                            <span class="result-modern-label">Receita Necessária</span>
+                            <span class="result-modern-value" id="receita-necessaria">R$ 0,00</span>
+                        </div>
+                        <div class="result-modern-card">
+                            <i class="fas fa-balance-scale"></i>
+                            <span class="result-modern-label">Ponto de Equilíbrio</span>
+                            <span class="result-modern-value" id="ponto-equilibrio">0 entregas</span>
+                        </div>
+                        <div class="result-modern-card success">
+                            <i class="fas fa-coins"></i>
+                            <span class="result-modern-label">Lucro Estimado</span>
+                            <span class="result-modern-value" id="lucro-estimado">R$ 0,00</span>
+                        </div>
+                        <div class="result-modern-card">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span class="result-modern-label">Receita de Entregas</span>
+                            <span class="result-modern-value" id="receita-entregas">R$ 0,00</span>
+                        </div>
+                    </div>
+
+                    <div class="calculator-actions-modern">
+                        <button class="btn-modern btn-primary" onclick="saveCalculation()">
+                            <i class="fas fa-save"></i>
+                            Salvar Cálculo
                         </button>
-                        <button class="btn btn-secondary" onclick="resetCalculator()">
+                        <button class="btn-modern btn-export" onclick="exportResults()">
+                            <i class="fas fa-file-download"></i>
+                            Exportar PDF
+                        </button>
+                        <button class="btn-modern btn-reset" onclick="resetCalculator()">
                             <i class="fas fa-redo"></i>
-                            Limpar Campos
+                            Limpar Tudo
                         </button>
                     </div>
                 </div>

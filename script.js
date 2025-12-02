@@ -106,6 +106,45 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeStatsCounter();
 });
 
+// Calculator Tab Switching
+function switchCalcTab(tabName) {
+    // Remove active from all tabs and contents
+    document.querySelectorAll('.calc-tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.calc-tab-content').forEach(content => content.classList.remove('active'));
+
+    // Add active to selected tab and content
+    event.target.closest('.calc-tab-btn').classList.add('active');
+    document.getElementById(`tab-${tabName}`).classList.add('active');
+
+    // If switching to results, recalculate
+    if (tabName === 'resultados') {
+        calculator.calculateAll();
+    }
+}
+
+// Save calculation to localStorage
+function saveCalculation() {
+    const calculationData = {};
+    const inputs = document.querySelectorAll('#calculator input[type="number"]');
+
+    inputs.forEach(input => {
+        calculationData[input.id] = input.value;
+    });
+
+    const timestamp = new Date().toISOString();
+    const savedCalcs = JSON.parse(localStorage.getItem('savedCalculations') || '[]');
+    savedCalcs.push({ timestamp, data: calculationData });
+
+    // Keep only last 10 calculations
+    if (savedCalcs.length > 10) {
+        savedCalcs.shift();
+    }
+
+    localStorage.setItem('savedCalculations', JSON.stringify(savedCalcs));
+
+    alert('Cálculo salvo com sucesso! ✅');
+}
+
 // Calculator Logic
 class LogisticsCalculator {
     constructor() {
@@ -117,7 +156,7 @@ class LogisticsCalculator {
     initializeEventListeners() {
         // Get all input fields
         const inputs = document.querySelectorAll('#calculator input[type="number"]');
-        
+
         // Add event listeners to all inputs
         inputs.forEach(input => {
             input.addEventListener('input', () => this.calculateAll());
