@@ -2862,3 +2862,37 @@ select:focus {
         justify-content: center;
     }
 }
+
+/* Country Code Select */
+.country-code-select {
+    min-width: 120px;
+    max-width: 140px;
+    padding: 15px 12px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    font-size: 1.05rem;
+    background: rgba(255, 255, 255, 0.95);
+    color: #0f172a;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.country-code-select:focus {
+    outline: none;
+    border-color: white;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+}
+
+.country-code-select option {
+    padding: 10px;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .country-code-select {
+        width: 100%;
+        max-width: 100%;
+    }
+}

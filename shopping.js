@@ -275,6 +275,7 @@ window.sendToWhatsApp = async function() {
     }
 
     const phoneInput = document.getElementById('whatsapp-number');
+    const countryCode = document.getElementById('country-code').value;
     let phoneNumber = phoneInput.value.replace(/\D/g, '');
 
     if (!phoneNumber) {
@@ -283,15 +284,13 @@ window.sendToWhatsApp = async function() {
         return;
     }
 
-    if (phoneNumber.length < 10) {
-        alert('Número inválido! Digite o DDD + número completo.');
+    if (phoneNumber.length < 8) {
+        alert('Número inválido! Digite o número completo.');
         phoneInput.focus();
         return;
     }
 
-    if (phoneNumber.length === 11 && !phoneNumber.startsWith('55')) {
-        phoneNumber = '55' + phoneNumber;
-    }
+    phoneNumber = countryCode + phoneNumber;
 
     if (currentListItems.length === 0) {
         alert('A lista está vazia! Adicione itens antes de enviar.');
@@ -341,31 +340,54 @@ window.sendToWhatsApp = async function() {
 
     window.open(whatsappUrl, '_blank');
 
-    localStorage.setItem('whatsapp_number', phoneNumber);
+    localStorage.setItem('whatsapp_country_code', countryCode);
+    localStorage.setItem('whatsapp_number', phoneInput.value);
 };
 
 // Format phone number as user types
 document.addEventListener('DOMContentLoaded', () => {
     const phoneInput = document.getElementById('whatsapp-number');
-    
-    if (phoneInput) {
+    const countryCodeSelect = document.getElementById('country-code');
+
+    if (phoneInput && countryCodeSelect) {
+        const savedCountryCode = localStorage.getItem('whatsapp_country_code');
         const savedNumber = localStorage.getItem('whatsapp_number');
+
+        if (savedCountryCode) {
+            countryCodeSelect.value = savedCountryCode;
+        }
+
         if (savedNumber) {
-            phoneInput.value = formatPhoneNumber(savedNumber);
+            phoneInput.value = savedNumber;
         }
 
         phoneInput.addEventListener('input', (e) => {
             let value = e.target.value.replace(/\D/g, '');
-            e.target.value = formatPhoneNumber(value);
+            const selectedCountry = countryCodeSelect.value;
+
+            if (selectedCountry === '55') {
+                e.target.value = formatBrazilianPhone(value);
+            } else {
+                e.target.value = value;
+            }
+        });
+
+        countryCodeSelect.addEventListener('change', (e) => {
+            phoneInput.value = '';
+            if (e.target.value === '55') {
+                phoneInput.placeholder = '(00) 00000-0000';
+                phoneInput.maxLength = 15;
+            } else {
+                phoneInput.placeholder = 'Digite seu número';
+                phoneInput.maxLength = 20;
+            }
         });
     }
 });
 
-function formatPhoneNumber(value) {
+function formatBrazilianPhone(value) {
     if (!value) return '';
-    
-    value = value.replace(/^55/, '');
-    
+
     if (value.length <= 10) {
         return value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3').replace(/-$/, '');
     } else {
