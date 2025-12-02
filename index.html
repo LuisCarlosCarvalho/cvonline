@@ -19,6 +19,7 @@
                 <a href="#about" class="nav-link">Sobre Mim</a>
                 <a href="#experience" class="nav-link">Experiência</a>
                 <a href="#portfolio" class="nav-link">Portfólio TI</a>
+                <a href="#forum" class="nav-link">Fórum</a>
                 <a href="#calculator" class="nav-link">Calculadora</a>
                 <a href="#contact" class="nav-link">Contato</a>
             </div>
@@ -399,6 +400,143 @@ Na logística, atuo na gestão e operação de frotas, armazéns e distribuiçã
         </div>
     </section>
 
+    <!-- Forum Section -->
+    <section id="forum" class="forum-section">
+        <div class="container">
+            <div class="section-header animate-fade-in-up">
+                <h2>Fórum de Tecnologia e Logística</h2>
+                <p>Espaço para perguntas e discussões sobre TI e Logística</p>
+            </div>
+
+            <!-- Forum Guidelines -->
+            <div class="forum-guidelines animate-fade-in-up delay-200">
+                <div class="guidelines-header">
+                    <i class="fas fa-info-circle"></i>
+                    <h3>Sobre o Fórum</h3>
+                </div>
+                <div class="guidelines-content">
+                    <p><strong>Bem-vindo ao Fórum de Tecnologia e Logística!</strong></p>
+                    <p>Este espaço foi criado para compartilhar conhecimento e solucionar dúvidas nas áreas de:</p>
+                    <ul>
+                        <li><strong>TI (Tecnologia da Informação):</strong> Programação, infraestrutura, sistemas, automação, desenvolvimento web, banco de dados e muito mais.</li>
+                        <li><strong>Logística:</strong> Gestão de frotas, operações, supply chain, otimização de rotas, controle de estoque, armazenagem e distribuição.</li>
+                    </ul>
+                    <p><strong>Como funciona:</strong></p>
+                    <ul>
+                        <li>Envie suas perguntas através do formulário abaixo</li>
+                        <li>Você pode adicionar URLs, imagens e links para complementar sua pergunta</li>
+                        <li>As respostas serão fornecidas pelo administrador especializado</li>
+                        <li>Todas as perguntas e respostas ficam disponíveis publicamente para consulta</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Admin Login Toggle -->
+            <div class="admin-access animate-fade-in-up delay-300">
+                <button id="admin-toggle-btn" class="btn btn-secondary" onclick="toggleAdminLogin()">
+                    <i class="fas fa-user-shield"></i>
+                    Acesso Admin
+                </button>
+            </div>
+
+            <!-- Admin Login Modal -->
+            <div id="admin-login-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeAdminLogin()">&times;</span>
+                    <h3><i class="fas fa-lock"></i> Login do Administrador</h3>
+                    <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+                        <div class="form-group">
+                            <input type="email" id="admin-email" placeholder="Email do Admin" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="admin-password" placeholder="Senha" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Entrar</button>
+                    </form>
+                    <div id="admin-login-message"></div>
+                </div>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="forum-tabs animate-fade-in-up delay-400">
+                <button class="tab-btn active" onclick="switchForumTab('TI')">
+                    <i class="fas fa-laptop-code"></i>
+                    Tecnologia da Informação
+                </button>
+                <button class="tab-btn" onclick="switchForumTab('Logistica')">
+                    <i class="fas fa-truck"></i>
+                    Logística
+                </button>
+            </div>
+
+            <!-- Ask Question Form -->
+            <div class="forum-ask-section animate-fade-in-up delay-500">
+                <h3><i class="fas fa-question-circle"></i> Fazer uma Pergunta</h3>
+                <form id="forum-question-form" onsubmit="handleQuestionSubmit(event)">
+                    <input type="hidden" id="question-category" value="TI">
+                    <div class="form-group">
+                        <input type="text" id="question-author" placeholder="Seu Nome" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="question-email" placeholder="Seu Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="question-title" placeholder="Título da Pergunta" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="question-content" placeholder="Descreva sua pergunta... (pode incluir URLs e links)" rows="6" required></textarea>
+                        <small>Você pode incluir links, URLs e descrições detalhadas</small>
+                    </div>
+                    <div class="form-group">
+                        <input type="url" id="question-image" placeholder="URL da Imagem (opcional)">
+                        <small>Cole a URL de uma imagem para ilustrar sua pergunta</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                        Enviar Pergunta
+                    </button>
+                </form>
+                <div id="question-message"></div>
+            </div>
+
+            <!-- Questions List -->
+            <div class="forum-questions-section animate-fade-in-up delay-600">
+                <h3><i class="fas fa-comments"></i> Perguntas e Respostas</h3>
+                <div id="forum-questions-list" class="questions-list">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        Carregando perguntas...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Answer Modal -->
+            <div id="admin-answer-modal" class="modal">
+                <div class="modal-content admin-modal-content">
+                    <span class="close" onclick="closeAnswerModal()">&times;</span>
+                    <h3><i class="fas fa-reply"></i> Responder Pergunta</h3>
+                    <div id="answer-question-preview"></div>
+                    <form id="admin-answer-form" onsubmit="handleAnswerSubmit(event)">
+                        <input type="hidden" id="answer-question-id">
+                        <div class="form-group">
+                            <textarea id="answer-content" placeholder="Sua resposta... (pode incluir URLs e links)" rows="8" required></textarea>
+                            <small>Você pode incluir links, URLs e explicações detalhadas</small>
+                        </div>
+                        <div class="form-group">
+                            <input type="url" id="answer-image" placeholder="URL da Imagem (opcional)">
+                            <small>Cole a URL de uma imagem para ilustrar sua resposta</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check"></i>
+                            Enviar Resposta
+                        </button>
+                    </form>
+                    <div id="answer-message"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Calculator Section -->
     <section id="calculator" class="calculator-section">
         <div class="container">
@@ -679,5 +817,6 @@ Na logística, atuo na gestão e operação de frotas, armazéns e distribuiçã
     </footer>
 
     <script src="script.js"></script>
+    <script type="module" src="forum.js"></script>
 </body>
 </html>
