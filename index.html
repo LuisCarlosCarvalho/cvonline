@@ -20,7 +20,7 @@
                 <a href="#experience" class="nav-link">Experiência</a>
                 <a href="#portfolio" class="nav-link">Portfólio TI</a>
                 <a href="#forum" class="nav-link">Fórum</a>
-                <a href="#calculator" class="nav-link">Calculadora</a>
+                <a href="#mini-projetos" class="nav-link">Mini Projetos</a>
                 <a href="#contact" class="nav-link">Contato</a>
             </div>
 
@@ -537,40 +537,59 @@ Na logística, atuo na gestão e operação de frotas, armazéns e distribuiçã
         </div>
     </section>
 
-    <!-- Calculator Section -->
-    <section id="calculator" class="calculator-section">
+    <!-- Mini Projetos Section -->
+    <section id="mini-projetos" class="mini-projetos-section">
         <div class="container">
             <div class="section-header animate-fade-in-up">
-                <h2><i class="fas fa-calculator"></i> Calculadora Logística Inteligente</h2>
-                <p>Calcule custos, otimize operações e maximize lucros com precisão</p>
+                <h2><i class="fas fa-rocket"></i> Mini Projetos</h2>
+                <p>Ferramentas práticas e úteis para o dia a dia</p>
             </div>
 
-            <!-- Quick Info Cards -->
-            <div class="calc-info-cards animate-fade-in-up delay-200">
-                <div class="info-card">
-                    <i class="fas fa-chart-line"></i>
-                    <div>
-                        <h4>Análise Completa</h4>
-                        <p>Todos os custos operacionais</p>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <i class="fas fa-sync-alt"></i>
-                    <div>
-                        <h4>Cálculo em Tempo Real</h4>
-                        <p>Resultados instantâneos</p>
-                    </div>
-                </div>
-                <div class="info-card">
-                    <i class="fas fa-file-export"></i>
-                    <div>
-                        <h4>Exportação</h4>
-                        <p>Relatório detalhado em PDF</p>
-                    </div>
-                </div>
+            <!-- Projects Menu -->
+            <div class="projects-menu animate-fade-in-up delay-200">
+                <button class="project-menu-btn active" onclick="switchProject('calculator')">
+                    <i class="fas fa-calculator"></i>
+                    <span>Calculadora Logística</span>
+                </button>
+                <button class="project-menu-btn" onclick="switchProject('shopping')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Lista de Compras</span>
+                </button>
             </div>
 
-            <div class="calculator-container animate-fade-in-up delay-400">
+            <!-- Calculator Project -->
+            <div id="project-calculator" class="project-content active">
+                <div class="project-intro">
+                    <h3><i class="fas fa-calculator"></i> Calculadora Logística Inteligente</h3>
+                    <p>Calcule custos, otimize operações e maximize lucros com precisão</p>
+                </div>
+
+                <!-- Quick Info Cards -->
+                <div class="calc-info-cards">
+                    <div class="info-card">
+                        <i class="fas fa-chart-line"></i>
+                        <div>
+                            <h4>Análise Completa</h4>
+                            <p>Todos os custos operacionais</p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-sync-alt"></i>
+                        <div>
+                            <h4>Cálculo em Tempo Real</h4>
+                            <p>Resultados instantâneos</p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <i class="fas fa-file-export"></i>
+                        <div>
+                            <h4>Exportação</h4>
+                            <p>Relatório detalhado em PDF</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calculator-container">
                 <!-- Tabs for organization -->
                 <div class="calc-tabs">
                     <button class="calc-tab-btn active" onclick="switchCalcTab('custos')">
@@ -775,8 +794,138 @@ Na logística, atuo na gestão e operação de frotas, armazéns e distribuiçã
                     </div>
                 </div>
             </div>
+            </div>
+
+            <!-- Shopping List Project -->
+            <div id="project-shopping" class="project-content">
+                <div class="project-intro">
+                    <h3><i class="fas fa-shopping-cart"></i> Lista de Compras Inteligente</h3>
+                    <p>Organize suas compras, controle gastos e não esqueça nada</p>
+                </div>
+
+                <div class="shopping-container">
+                    <!-- Shopping Lists Sidebar -->
+                    <div class="shopping-sidebar">
+                        <div class="shopping-sidebar-header">
+                            <h4><i class="fas fa-list"></i> Minhas Listas</h4>
+                            <button class="btn-icon" onclick="showNewListModal()" title="Nova Lista">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div id="shopping-lists-container" class="shopping-lists">
+                            <div class="loading-small">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                Carregando...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shopping Items Main Area -->
+                    <div class="shopping-main">
+                        <div id="shopping-empty-state" class="shopping-empty">
+                            <i class="fas fa-shopping-basket"></i>
+                            <h4>Nenhuma lista selecionada</h4>
+                            <p>Crie uma nova lista ou selecione uma existente</p>
+                        </div>
+
+                        <div id="shopping-list-content" class="shopping-list-view" style="display: none;">
+                            <div class="shopping-list-header">
+                                <div>
+                                    <h3 id="current-list-name">Lista de Compras</h3>
+                                    <p id="current-list-info">0 itens • R$ 0,00</p>
+                                </div>
+                                <div class="shopping-list-actions">
+                                    <button class="btn-icon" onclick="showAddItemModal()" title="Adicionar Item">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button class="btn-icon btn-danger" onclick="deleteCurrentList()" title="Excluir Lista">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="shopping-items-container" class="shopping-items">
+                                <!-- Items will be loaded here -->
+                            </div>
+
+                            <div class="shopping-summary">
+                                <div class="summary-row">
+                                    <span>Total de Itens:</span>
+                                    <strong id="summary-total-items">0</strong>
+                                </div>
+                                <div class="summary-row">
+                                    <span>Itens Comprados:</span>
+                                    <strong id="summary-completed-items">0</strong>
+                                </div>
+                                <div class="summary-row highlight">
+                                    <span>Valor Total:</span>
+                                    <strong id="summary-total-price">R$ 0,00</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
+
+    <!-- New List Modal -->
+    <div id="new-list-modal" class="modal">
+        <div class="modal-content modal-sm">
+            <span class="close" onclick="closeNewListModal()">&times;</span>
+            <h3><i class="fas fa-list"></i> Nova Lista de Compras</h3>
+            <form id="new-list-form" onsubmit="createNewList(event)">
+                <div class="form-group">
+                    <label>Nome da Lista</label>
+                    <input type="text" id="new-list-name" placeholder="Ex: Supermercado, Feira, etc." required>
+                </div>
+                <button type="submit" class="btn btn-primary full-width">
+                    <i class="fas fa-check"></i>
+                    Criar Lista
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Item Modal -->
+    <div id="add-item-modal" class="modal">
+        <div class="modal-content modal-sm">
+            <span class="close" onclick="closeAddItemModal()">&times;</span>
+            <h3><i class="fas fa-plus-circle"></i> Adicionar Item</h3>
+            <form id="add-item-form" onsubmit="addNewItem(event)">
+                <div class="form-group">
+                    <label>Nome do Item</label>
+                    <input type="text" id="new-item-name" placeholder="Ex: Arroz, Feijão, etc." required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Quantidade</label>
+                        <input type="number" id="new-item-quantity" value="1" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Unidade</label>
+                        <select id="new-item-unit">
+                            <option value="un">Un</option>
+                            <option value="kg">Kg</option>
+                            <option value="g">g</option>
+                            <option value="l">L</option>
+                            <option value="ml">mL</option>
+                            <option value="cx">Cx</option>
+                            <option value="pc">Pc</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Preço (R$) <span class="optional">opcional</span></label>
+                    <input type="number" id="new-item-price" placeholder="0.00" step="0.01" min="0">
+                </div>
+                <button type="submit" class="btn btn-primary full-width">
+                    <i class="fas fa-check"></i>
+                    Adicionar Item
+                </button>
+            </form>
+        </div>
+    </div>
 
     <!-- Contact Section -->
     <section id="contact" class="contact-section">
@@ -864,5 +1013,6 @@ Na logística, atuo na gestão e operação de frotas, armazéns e distribuiçã
 
     <script src="script.js"></script>
     <script type="module" src="forum.js"></script>
+    <script type="module" src="shopping.js"></script>
 </body>
 </html>
